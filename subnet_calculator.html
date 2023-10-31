@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Subnet Calculator</title>
+    <style type="text/css" media="all">
+        body {
+            margin:	0px;
+            padding:	0px;
+            overflow:	auto;
+            background-color: #2A4C68;
+            font-family: arial,helvetica,sans-serif;
+            color:	#FFF6E5;
+            font-size: 14px;
+        }
+
+        a {
+            font-style:	normal;
+            color:	#FFE1A7;
+            text-decoration: none;
+        }
+
+        a:visited, a:active {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        h1  {
+            margin: 4px 0 0 0;
+            padding: 5px;
+            text-align: right;
+            background: #9EC1DE;
+            color: #2A4C68;
+            letter-spacing: 0.5em;
+            text-transform: lowercase;
+            font: bold 22px sans-serif;
+            height: 25px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .page {
+            background-color: #668BAE;
+        }
+
+        #page {
+            width:	760px;
+            background-color: #668BAE;
+        }
+
+        #header {
+            background: #9EC1DE;
+            color: #2A4C68;
+            text-align: center;
+        }
+
+        .header-text {
+            margin: 0;
+            padding: 5px;
+            background: #9EC1DE;
+            color: #2A4C68;
+            letter-spacing: 0.5em;
+            text-transform: lowercase;
+            font: bold 22px sans-serif;
+            height: 25px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        #top_menu {
+            text-align:	left;		
+            height: 20px;
+            width: 760px;
+            /* border-bottom:	5px solid #FFE1A7; */
+        }
+
+        #bottom_menu {
+            text-align:	left;		
+            height: 21px;
+            border-bottom:	5px solid #FFE1A7;
+        }
+
+
+        .menus  {
+            font-size: 14px; 
+            color: #FFF6E5;
+            background: #37658F;
+        }
+
+        .menus ul  {
+            margin: 0;
+            list-style: none;
+            padding: 0;
+        }
+
+        .menus li  {
+            margin: 0;
+            display: inline;
+        }
+
+        .menus a, .menus a:visited, .menus a:hover, .menus a:active {
+            text-decoration: none;	
+            font-weight: normal;
+            color: #FFF6E5;
+        }
+
+        .menus a  {
+            display: block;
+            padding: 2px 8px;
+            height: 14px; 
+            margin: 1px 0px;
+            float: left;
+        }
+
+        .menus a:hover  {
+            border: 1px solid;
+            border-color: #BDD6E9 #2A4C68 #2A4C68 #BDD6E9;
+            padding: 1px 7px;
+        }
+
+        .menus a:active  {
+            border: 1px solid;
+            border-color: #2A4C68 #BDD6E9 #BDD6E9 #2A4C68;
+            padding: 2px 6px 0px 8px;
+        }
+
+        table.calc {
+            font-size: 12px;
+            color:	Black;
+            margin: 10px;
+            background-color: Silver;
+            border: 1px solid;
+            border-color: White Gray Gray White;
+            padding-bottom: 10px;
+        }
+
+        td.left {
+            padding: 8px 5px 0px 10px;
+            vertical-align:	bottom;
+        }
+
+        td.right {
+            vertical-align:	bottom;
+        }
+
+        .title {
+            width: 350px;
+            text-align: left;
+            background-color: #000000;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 1px;
+        }
+
+        h2.element {
+            font-size: 12px;
+            text-align: left;
+            line-height: 12px;
+            font-weight: normal;
+            padding: 0px 0px;
+            margin: 2px 2px;
+            display: inline;
+        }
+
+        .red_text {
+            color: #c20404;
+        }
+
+        .amber_text {
+            color: #bc8500;
+        }
+
+        .green_text {
+            color: #1a8f03;
+        }
+
+        #subnet_bitmap {
+            padding: 2px;
+            margin-top: 2px;
+            border-right: 2px solid #eeeeee;
+            border-top:2px solid #9a9a9a;
+            border-left: 2px solid #9a9a9a;
+            border-bottom:2px solid #eeeeee;
+            width: 312px;
+            background-color: #f0f0f0;
+        }
+
+        #ip_addr,
+        #wildcard_mask, #first_address, #last_address,
+        #subnet_mask, #subnet_bits, #mask_bits, #max_subnets, #max_hosts,
+        #cidr_mask_bits, #supernet_mask, #max_supernets, #max_addresses,
+        #cidr_netmask, #cidr_mask_bits, #cidr_max_subnets, 
+        #oct_range, #hex_addr, #inverted_mask, #subnet_id, #broadcast_addr,
+        #cidr_network, #net_cidr_notation {
+            width: 145px;
+            margin-top: 2px;
+        }
+
+        #class_a, #class_b, #class_c {
+            margin-top: 4px;
+            margin-bottom: 6px;
+        }
+
+        #host_range, #cidr_addr_range {
+            margin-top: 2px;
+            width: 320px;
+        }
+
+        #ip_oct_1, #ip_oct_2, #ip_oct_3, #ip_oct_4 {
+            width: 35px;
+        }
+
+        table.ipv6 {
+            font-size: 12px;
+            color:	Black;
+            margin: 10px;
+            background-color: Silver;
+            border: 1px solid;
+            border-color: White Gray Gray White;
+            padding-bottom: 10px;
+        }
+
+        #ipv6_16_1, #ipv6_16_2, #ipv6_16_3, #ipv6_16_4,
+        #ipv6_16_5, #ipv6_16_6, #ipv6_16_7, #ipv6_16_8 {
+            width: 45px;
+        }
+
+        #Bla-Bla-2, #Bla-Bla-3 {
+            width: 145px;
+        }
+
+        .calc-input {
+            text-align: center;
+        }
+
+        .calc-output {
+            background-color: Silver;
+            text-align: center;
+        }
+
+        #calc_text {
+            margin:	5px;
+            float:	right;
+            width:	345px;
+            text-align: left;
+
+        }
+
+        .info_h1 h1 {
+            color: #FFE1A7;
+            background-color: #668BAE;
+            text-align: left;
+            margin: 0 0 0 0;
+            padding: 0;
+            letter-spacing: 0;
+            font: normal 12px;
+            text-transform:	none;
+            height: 25px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        #bottom {
+            margin: 0px 0px 20px 0px;
+            border-bottom-style: solid;
+            border-bottom-width: 5px;
+            border-bottom-color: #FFE1A7;
+            width: 760px;
+        }
+
+        .clear {
+            clear:	both;
+        }
+
+        .flag_left {
+            float: left;
+            width: 100px;
+            text-align: left;
+            margin: 9px 0 0 5px;
+        }
+        .links {
+            text-align: left;
+            font-size: 11px;
+        }
+
+        .links ul {
+            list-style: none;
+        }
+
+        .body-container {
+            width: 43%;
+            margin-left: 28.5%;
+            margin-top: 3rem;
+        }
+    </style>
+    
+</head>
+
+<script>
+    const wildcard = `
+<div class="wildcard-main-container" align="center" id="body">
+<div id="page">
+    <div id="header">
+    <p class="header-text">ACL Wildcard Mask Calculator</p>
+    </div> <!-- div header -->
+    <div id="calc_text">
+    <p class="first_paragraph"><b>ACL Wildcard Mask Calculator <i></i></b></p>
+<p>The ACL Wildcard Mask Calculator enables wildcard mask calculations using IP address and wildcard mask.</p>
+<p>Results of the wildcard mask calculation provide the first IP address and last IP address in the wildcard mask network range.</p>
+<p>For CIDR supernetting, please use the <a onclick="showCidr()">IP CIDR Calculator</a>. For classful supernetting, please use the <a onclick="showSupernet()">IP Supernet Calculator</a>. 
+For classful subnetting, please use the <a onclick="showSubnet()">IP Subnet Calculator</a>.</p>
+            </div> <!-- div calc_text -->
+    <form name="calculator" action="">
+        <table class="calc">
+        <tbody><tr>
+        <td colspan="2" class="title">
+        <b>ACL Wildcard Mask Calculator</b>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+            IP Address<br>
+            <input type="text" id="ip_oct_1" name="ip_oct_1" class="calc-input" value="0" maxlength="3" onchange="wildcardIpOctChange('1')"> <strong>.</strong>
+            <input type="text" id="ip_oct_2" name="ip_oct_2" class="calc-input" value="0" maxlength="3" onchange="wildcardIpOctChange(2)"> <strong>.</strong>
+            <input type="text" id="ip_oct_3" name="ip_oct_3" class="calc-input" value="0" maxlength="3" onchange="wildcardIpOctChange(3)"> <strong>.</strong>
+            <input type="text" name="ip_oct_4" id="ip_oct_4" class="calc-input" value="0" maxlength="3" onchange="wildcardIpOctChange(4)">
+        </td>
+        <td class="right">
+        Wildcard Mask<br>
+            <select name="wildcard_mask" id="wildcard_mask" onchange="wildcardMaskChange()">
+                <option value="0">127.255.255.255</option>
+    <option value="1">63.255.255.255</option>
+    <option value="2">31.255.255.255</option>
+    <option value="3">15.255.255.255</option>
+    <option value="4">7.255.255.255</option>
+    <option value="5">3.255.255.255</option>
+    <option value="6">1.255.255.255</option>
+    <option value="7">0.255.255.255</option>
+    <option value="8">0.127.255.255</option>
+    <option value="9">0.63.255.255</option>
+    <option value="10">0.31.255.255</option>
+    <option value="11">0.15.255.255</option>
+    <option value="12">0.7.255.255</option>
+    <option value="13">0.3.255.255</option>
+    <option value="14">0.1.255.255</option>
+    <option value="15">0.0.255.255</option>
+    <option value="16">0.0.127.255</option>
+    <option value="17">0.0.63.255</option>
+    <option value="18">0.0.31.255</option>
+    <option value="19">0.0.15.255</option>
+    <option value="20">0.0.7.255</option>
+    <option value="21">0.0.3.255</option>
+    <option value="22">0.0.1.255</option>
+    <option value="23">0.0.0.255</option>
+    <option value="24">0.0.0.127</option>
+    <option value="25">0.0.0.63</option>
+    <option value="26">0.0.0.31</option>
+    <option value="27">0.0.0.15</option>
+    <option value="28">0.0.0.7</option>
+    <option value="29">0.0.0.3</option>
+    <option value="30">0.0.0.1</option>
+    <option value="31">0.0.0.0</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        First Address<br>
+        <input type="text" id="first_address" name="first_address" value="" size="20" readonly="" class="calc-output">
+        </td>
+        <td class="right">
+        Last Address<br>
+        <input type="text" id="last_address" name="last_address" value="" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr><td colspan="2"><span class="base"></span></td></tr>
+        </tbody></table> <!-- calc -->
+    </form>
+    <div class="clear"></div>
+    <div class="clear"></div>
+    </div>
+</div> 
+`
+</script>
+
+<script>
+const supernetHeader = `
+    <div class="supernet-main-container" align="center" id="body">
+        <div id="page">
+            <div id="header">
+            <p class="header-text">IP Supernet Calculator</p>
+            </div> <!-- div header -->
+
+            <div id="calc_text">
+            
+                <p class="first_paragraph"><b>IP Supernet Calculator <i></i></b></p>
+                <p>The IP Supernet Calculator enables Supernet network calculations using network class, IP address, subnet mask, mask bits, 
+                maximum required IP addresses and maximum required supernets.</p>
+                <p>Results of the supernet calculation provide the wildcard mask, for use with ACL (Access Control Lists), 
+                supernet route (supernet network address) and the supernet address range for the 	resulting supernet network.</p>
+                <p>For classless supernetting, please use the <a onclick="showCidr()">IP CIDR Calculator</a>. For classful subnetting, please use the 
+                <a onclick="showSubnet()">IP Subnet Calculator</a>. For simple ACL (Access Control List) wildcard mask calculations, please use the 
+                <a onclick="showWildcard()">Wildcard Mask Calculator</a>.</p>
+            </div> 
+    `
+
+const supernetA = `
+    <form name="calculator" action="">
+        <table class="calc">
+        <tbody><tr>
+        <td colspan="2" class="title">
+        <b>Supernet Calculator</b>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+            Network Class<br>
+            <label>
+            A <input type="radio" id="class_a" name="class_a" value="A" checked="" onclick="supernetCidrClassAClick()">
+            </label>
+            <label>
+            B <input type="radio" id="class_b" name="class_b" value="B" onclick="supernetCidrClassBClick()">
+            </label>
+            <label>
+            C <input type="radio" id="class_c" name="class_c" value="C" onclick="supernetCidrClassCClick()">
+            </label>
+        </td>
+        <td class="right">
+            First Octet Range<br>
+            <input type="text" id="oct_range" name="oct_range" value="1 - 126" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+            IP Address<br>
+            <input type="text" id="ip_oct_1" name="ip_oct_1" class="calc-input" value="10" maxlength="3" onchange="supernetIpOctChange(1)"> <strong>.</strong>
+            <input type="text" id="ip_oct_2" name="ip_oct_2" class="calc-input" value="0" maxlength="3" onchange="supernetIpOctChange(2)"> <strong>.</strong>
+            <input type="text" id="ip_oct_3" name="ip_oct_3" class="calc-input" value="0" maxlength="3" onchange="supernetIpOctChange(3)"> <strong>.</strong>
+            <input type="text" name="ip_oct_4" id="ip_oct_4" class="calc-input" value="1" maxlength="3" onchange="supernetIpOctChange(4)">
+        </td>
+        <td class="right">
+        Supernet Mask<br>
+        <select name="supernet_mask" id="supernet_mask" onchange="supernetCidrMaskChange()">
+            <option value="0" selected="">128.0.0.0</option>
+            <option value="1">192.0.0.0</option>
+            <option value="2">224.0.0.0</option>
+            <option value="3">240.0.0.0</option>
+            <option value="4">248.0.0.0</option>
+            <option value="5">252.0.0.0</option>
+            <option value="6">254.0.0.0</option>
+            <option value="7">255.0.0.0</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Mask Bits<br>
+        <select id="cidr_mask_bits" name="cidr_mask_bits" onchange="supernetCidrMaskBitsChange()">
+                <option value="0" selected="">1</option>
+    <option value="1">2</option>
+    <option value="2">3</option>
+    <option value="3">4</option>
+    <option value="4">5</option>
+    <option value="5">6</option>
+    <option value="6">7</option>
+    <option value="7">8</option>
+
+        </select>
+        </td>
+        <td class="right">
+        Wildcard Mask<br>
+        <input type="text" name="inverted_mask" id="inverted_mask" value="127.255.255.255" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Maximum Supernets<br>
+        <select id="max_supernets" name="max_supernets" size="1" onchange="supernetCidrMaxSupernetsChange()">
+                <option value="0" selected="">128</option>
+    <option value="1">64</option>
+    <option value="2">32</option>
+    <option value="3">16</option>
+    <option value="4">8</option>
+    <option value="5">4</option>
+    <option value="6">2</option>
+    <option value="7">1</option>
+        </select>
+        </td>
+        <td class="right">
+        Maximum Addresses<br>
+        <select id="max_addresses" name="max_addresses" size="1" onchange="supernetsCidrMaxAddressesChange()">
+                <option value="0" selected="">2147483646</option>
+    <option value="1">1073741822</option>
+    <option value="2">536870910</option>
+    <option value="3">268435454</option>
+    <option value="4">134217726</option>
+    <option value="5">67108862</option>
+    <option value="6">33554430</option>
+    <option value="7">16777214</option>
+
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        Supernet Route<br>
+        <input type="text" id="supernet_route" name="supernet_route" value="0.0.0.0" size="30" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        Supernet Address Range<br>
+        <input type="text" id="supernet_range" name="supernet_range" value="0.0.0.0 - 63.255.255.255" size="30" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr><td colspan="2"><span class="base"></span></td></tr>
+        </tbody></table> <!-- calc -->
+    </form>
+`
+
+const supernetB = `
+    <form name="calculator" action="">
+        <table class="calc">
+        <tbody><tr>
+        <td colspan="2" class="title">
+        <b>Supernet Calculator</b>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+            Network Class<br>
+            <label>
+            A <input type="radio" id="class_a" name="class_a" value="A" onclick="supernetCidrClassAClick()">
+            </label>
+            <label>
+            B <input type="radio" id="class_b" name="class_b" value="B" checked="" onclick="supernetCidrClassBClick()">
+            </label>
+            <label>
+            C <input type="radio" id="class_c" name="class_c" value="C" onclick="supernetCidrClassCClick()">
+            </label>
+        </td>
+        <td class="right">
+            First Octet Range<br>
+            <input type="text" id="oct_range" name="oct_range" value="128 - 191" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+            IP Address<br>
+            <input type="text" id="ip_oct_1" name="ip_oct_1" class="calc-input" value="172" maxlength="3" onchange="supernetIpOctChange(1)"> <strong>.</strong>
+            <input type="text" id="ip_oct_2" name="ip_oct_2" class="calc-input" value="16" maxlength="3" onchange="supernetIpOctChange(2)"> <strong>.</strong>
+            <input type="text" id="ip_oct_3" name="ip_oct_3" class="calc-input" value="0" maxlength="3" onchange="supernetIpOctChange(3)"> <strong>.</strong>
+            <input type="text" name="ip_oct_4" id="ip_oct_4" class="calc-input" value="1" maxlength="3" onchange="supernetIpOctChange(4)">
+        </td>
+        <td class="right">
+        Supernet Mask<br>
+        <select name="supernet_mask" id="supernet_mask" onchange="supernetCidrMaskChange()">
+            <option value="0" selected="">192.0.0.0</option>
+            <option value="1">224.0.0.0</option>
+            <option value="2">240.0.0.0</option>
+            <option value="3">248.0.0.0</option>
+            <option value="4">252.0.0.0</option>
+            <option value="5">254.0.0.0</option>
+            <option value="6">255.0.0.0</option>
+            <option value="7">255.128.0.0</option>
+            <option value="8">255.192.0.0</option>
+            <option value="9">255.224.0.0</option>
+            <option value="10">255.240.0.0</option>
+            <option value="11">255.248.0.0</option>
+            <option value="12">255.252.0.0</option>
+            <option value="13">255.254.0.0</option>
+            <option value="14">255.255.0.0</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Mask Bits<br>
+        <select id="cidr_mask_bits" name="cidr_mask_bits" onchange="supernetCidrMaskBitsChange()">
+                <option value="0" selected="">2</option>
+    <option value="1">3</option>
+    <option value="2">4</option>
+    <option value="3">5</option>
+    <option value="4">6</option>
+    <option value="5">7</option>
+    <option value="6">8</option>
+    <option value="7">9</option>
+    <option value="8">10</option>
+    <option value="9">11</option>
+    <option value="10">12</option>
+    <option value="11">13</option>
+    <option value="12">14</option>
+    <option value="13">15</option>
+    <option value="14">16</option>
+
+        </select>
+        </td>
+        <td class="right">
+        Wildcard Mask<br>
+        <input type="text" name="inverted_mask" id="inverted_mask" value="63.255.255.255" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Maximum Supernets<br>
+        <select id="max_supernets" name="max_supernets" size="1" onchange="supernetCidrMaxSupernetsChange()">
+                <option value="0" selected="">16384</option>
+    <option value="1">8192</option>
+    <option value="2">4096</option>
+    <option value="3">2048</option>
+    <option value="4">1024</option>
+    <option value="5">512</option>
+    <option value="6">256</option>
+    <option value="7">128</option>
+    <option value="8">64</option>
+    <option value="9">32</option>
+    <option value="10">16</option>
+    <option value="11">8</option>
+    <option value="12">4</option>
+    <option value="13">2</option>
+    <option value="14">1</option>
+        </select>
+        </td>
+        <td class="right">
+        Maximum Addresses<br>
+        <select id="max_addresses" name="max_addresses" size="1" onchange="supernetsCidrMaxAddressesChange()">
+                <option value="0" selected="">1073741822</option>
+    <option value="1">536870910</option>
+    <option value="2">268435454</option>
+    <option value="3">134217726</option>
+    <option value="4">67108862</option>
+    <option value="5">33554430</option>
+    <option value="6">16777214</option>
+    <option value="7">8388606</option>
+    <option value="8">4194302</option>
+    <option value="9">2097150</option>
+    <option value="10">1048574</option>
+    <option value="11">524286</option>
+    <option value="12">262142</option>
+    <option value="13">131070</option>
+    <option value="14">65534</option>
+
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        Supernet Route<br>
+        <input type="text" id="supernet_route" name="supernet_route" value="128.0.0.0" size="30" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        Supernet Address Range<br>
+        <input type="text" id="supernet_range" name="supernet_range" value="128.0.0.0 - 191.255.255.255" size="30" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr><td colspan="2"><span class="base"></span></td></tr>
+        </tbody></table> <!-- calc -->
+    </form>
+`
+
+const supernetC = `
+        <form name="calculator" action="">
+            <table class="calc">
+            <tbody><tr>
+            <td colspan="2" class="title">
+            <b>Supernet Calculator</b>
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+                Network Class<br>
+                <label>
+                A <input type="radio" id="class_a" name="class_a" value="A" onclick="supernetCidrClassAClick()">
+                </label>
+                <label>
+                B <input type="radio" id="class_b" name="class_b" value="B" onclick="supernetCidrClassBClick()">
+                </label>
+                <label>
+                C <input type="radio" id="class_c" name="class_c" value="C" checked="" onclick="supernetCidrClassCClick()">
+                </label>
+            </td>
+            <td class="right">
+                First Octet Range<br>
+                <input type="text" id="oct_range" name="oct_range" value="192 - 223" size="20" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+                IP Address<br>
+                <input type="text" id="ip_oct_1" name="ip_oct_1" class="calc-input" value="192" maxlength="3" onchange="supernetIpOctChange(1)"> <strong>.</strong>
+                <input type="text" id="ip_oct_2" name="ip_oct_2" class="calc-input" value="168" maxlength="3" onchange="supernetIpOctChange(2)"> <strong>.</strong>
+                <input type="text" id="ip_oct_3" name="ip_oct_3" class="calc-input" value="0" maxlength="3" onchange="supernetIpOctChange(3)"> <strong>.</strong>
+                <input type="text" name="ip_oct_4" id="ip_oct_4" class="calc-input" value="1" maxlength="3" onchange="supernetIpOctChange(4)">
+            </td>
+            <td class="right">
+            Supernet Mask<br>
+            <select name="supernet_mask" id="supernet_mask" onchange="supernetCidrMaskChange()">
+                    <option value="0" selected="">224.0.0.0</option>
+        <option value="1">240.0.0.0</option>
+        <option value="2">248.0.0.0</option>
+        <option value="3">252.0.0.0</option>
+        <option value="4">254.0.0.0</option>
+        <option value="5">255.0.0.0</option>
+        <option value="6">255.128.0.0</option>
+        <option value="7">255.192.0.0</option>
+        <option value="8">255.224.0.0</option>
+        <option value="9">255.240.0.0</option>
+        <option value="10">255.248.0.0</option>
+        <option value="11">255.252.0.0</option>
+        <option value="12">255.254.0.0</option>
+        <option value="13">255.255.0.0</option>
+        <option value="14">255.255.128.0</option>
+        <option value="15">255.255.192.0</option>
+        <option value="16">255.255.224.0</option>
+        <option value="17">255.255.240.0</option>
+        <option value="18">255.255.248.0</option>
+        <option value="19">255.255.252.0</option>
+        <option value="20">255.255.254.0</option>
+        <option value="21">255.255.255.0</option>
+            </select>
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+            Mask Bits<br>
+            <select id="cidr_mask_bits" name="cidr_mask_bits" onchange="supernetCidrMaskBitsChange()">
+                    <option value="0" selected="">3</option>
+        <option value="1">4</option>
+        <option value="2">5</option>
+        <option value="3">6</option>
+        <option value="4">7</option>
+        <option value="5">8</option>
+        <option value="6">9</option>
+        <option value="7">10</option>
+        <option value="8">11</option>
+        <option value="9">12</option>
+        <option value="10">13</option>
+        <option value="11">14</option>
+        <option value="12">15</option>
+        <option value="13">16</option>
+        <option value="14">17</option>
+        <option value="15">18</option>
+        <option value="16">19</option>
+        <option value="17">20</option>
+        <option value="18">21</option>
+        <option value="19">22</option>
+        <option value="20">23</option>
+        <option value="21">24</option>
+        
+            </select>
+            </td>
+            <td class="right">
+            Wildcard Mask<br>
+            <input type="text" name="inverted_mask" id="inverted_mask" value="31.255.255.255" size="20" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+            Maximum Supernets<br>
+            <select id="max_supernets" name="max_supernets" size="1" onchange="supernetCidrMaxSupernetsChange()">
+                    <option value="0" selected="">2097152</option>
+        <option value="1">1048576</option>
+        <option value="2">524288</option>
+        <option value="3">262144</option>
+        <option value="4">131072</option>
+        <option value="5">65536</option>
+        <option value="6">32768</option>
+        <option value="7">16384</option>
+        <option value="8">8192</option>
+        <option value="9">4096</option>
+        <option value="10">2048</option>
+        <option value="11">1024</option>
+        <option value="12">512</option>
+        <option value="13">256</option>
+        <option value="14">128</option>
+        <option value="15">64</option>
+        <option value="16">32</option>
+        <option value="17">16</option>
+        <option value="18">8</option>
+        <option value="19">4</option>
+        <option value="20">2</option>
+        <option value="21">1</option>
+            </select>
+            </td>
+            <td class="right">
+            Maximum Addresses<br>
+            <select id="max_addresses" name="max_addresses" size="1" onchange="supernetsCidrMaxAddressesChange()">
+                    <option value="0" selected="">536870910</option>
+        <option value="1">268435454</option>
+        <option value="2">134217726</option>
+        <option value="3">67108862</option>
+        <option value="4">33554430</option>
+        <option value="5">16777214</option>
+        <option value="6">8388606</option>
+        <option value="7">4194302</option>
+        <option value="8">2097150</option>
+        <option value="9">1048574</option>
+        <option value="10">524286</option>
+        <option value="11">262142</option>
+        <option value="12">131070</option>
+        <option value="13">65534</option>
+        <option value="14">32766</option>
+        <option value="15">16382</option>
+        <option value="16">8190</option>
+        <option value="17">4094</option>
+        <option value="18">2046</option>
+        <option value="19">1022</option>
+        <option value="20">510</option>
+        <option value="21">254</option>
+        
+            </select>
+            </td>
+            </tr>
+            <tr>
+            <td colspan="2" class="left">
+            Supernet Route<br>
+            <input type="text" id="supernet_route" name="supernet_route" value="192.0.0.0" size="30" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr>
+            <td colspan="2" class="left">
+            Supernet Address Range<br>
+            <input type="text" id="supernet_range" name="supernet_range" value="192.0.0.0 - 223.255.255.255" size="30" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr><td colspan="2"><span class="base"></span></td></tr>
+            </tbody></table> <!-- calc -->
+        </form>
+`
+const supernetDescription = `
+    <div class="clear"></div>
+                    <div class="clear"><br></div>
+                    </div>
+                    <div id="bottom" class="page">
+                        <div class="clear"></div>
+                        <div id="about">
+                        <strong>Notes about the Supernet Calculator:</strong>
+                        <ol>
+                        <li>The IP supernet calculator implements a classful / classed IP addressing scheme where the following rules are adhered to:<br><br>
+                            <ul>
+                            <li>Class A addresses have their first octet in the range 1 to 126 (binary address begins with 0).<br><br></li>
+                            <li>Class B addresses have their first octet in the range 128 to 191 (binary address begins with 10).<br><br></li>
+                            <li>Class C addresses have their first octet in the range 192 to 223 (binary address begins with 110).<br><br></li>
+                            </ul>
+                        </li>
+                        <li>The IP supernet calculator allows networks to be supernetted using the bits available between the network class bits and the subnet bits. 
+                        i.e. class A networks use the first bit to specify the class and the first eight bits to specify the network prefix. The bits available, 
+                        therefore, for supernetting are bits 2 to bits 8. Following the same rule, class B networks can be supernetted using bits 3 to 16 and class C 
+                        with bits 4 to 24.
+                        <br><br> 
+                        </li>
+                        </ol>
+                        <p>
+                        For classless supernetting, you can use the <a onclick="showCidr()">CIDR calculator</a>.
+                        </p>
+                        </div> <!-- div about -->
+                    </div> <!-- div bottom -->
+                </div> <!-- div page -->
+            <div class="clear"></div>
+        </div>
+    </div>
+`
+</script>
+<script>
+const cidr = `
+<div class="cidr-main-container" align="center" id="body">
+<div id="page">
+    <div id="header">
+    <p class="header-text">IP CIDR Calculator</p>
+    </div> <!-- div header -->
+    <div id="calc_text">
+    <p class="first_paragraph"><b>IP CIDR Calculator <i></i></b></p>
+<p>The IP CIDR Calculator enables CIDR network calculations using IP address, 
+CIDR mask (subnet mask), mask bits, maximum required IP addresses and maximum required subnets.</p> 
+<p>Results of the CIDR calculation provide the wildcard mask, for use with ACL (Access Control Lists), 
+CIDR network address (CIDR route),  network address in CIDR notation and the CIDR address range for the resulting CIDR network.</p>
+<p>For classful subnets, please use the <a onclick="showSubnet()">Subnet Calculator</a>. For classful supernets, please use the 
+<a onclick="showSupernet()">IP Supernet Calculator</a>. For simple ACL (Access Control List) wildcard mask calculations, 
+please use the <a onclick="showWildcard()">Wildcard Mask Calculator</a>.</p>
+            </div> <!-- div calc_text -->
+    <form name="calculator" action="">
+        <table class="calc">
+        <tbody><tr>
+        <td colspan="2" class="title">
+        <b>CIDR Calculator</h4>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+            IP Address<br>
+            <input type="text" id="ip_oct_1" name="ip_oct_1" class="calc-input" value="0" maxlength="3" onchange="cidrIpOctChange('1')"> <strong>.</strong>
+            <input type="text" id="ip_oct_2" name="ip_oct_2" class="calc-input" value="0" maxlength="3" onchange="cidrIpOctChange(2)"> <strong>.</strong>
+            <input type="text" id="ip_oct_3" name="ip_oct_3" class="calc-input" value="0" maxlength="3" onchange="cidrIpOctChange(3)"> <strong>.</strong>
+            <input type="text" name="ip_oct_4" id="ip_oct_4" class="calc-input" value="0" maxlength="3" onchange="cidrIpOctChange(4)">
+        </td>
+        <td class="right">
+        CIDR Netmask<br>
+            <select name="cidr_netmask" id="cidr_netmask" onchange="cidrNetmaskChange()">
+                <option value="0">128.0.0.0</option>
+    <option value="1">192.0.0.0</option>
+    <option value="2">224.0.0.0</option>
+    <option value="3">240.0.0.0</option>
+    <option value="4">248.0.0.0</option>
+    <option value="5">252.0.0.0</option>
+    <option value="6">254.0.0.0</option>
+    <option value="7">255.0.0.0</option>
+    <option value="8">255.128.0.0</option>
+    <option value="9">255.192.0.0</option>
+    <option value="10">255.224.0.0</option>
+    <option value="11">255.240.0.0</option>
+    <option value="12">255.248.0.0</option>
+    <option value="13">255.252.0.0</option>
+    <option value="14">255.254.0.0</option>
+    <option value="15">255.255.0.0</option>
+    <option value="16">255.255.128.0</option>
+    <option value="17">255.255.192.0</option>
+    <option value="18">255.255.224.0</option>
+    <option value="19">255.255.240.0</option>
+    <option value="20">255.255.248.0</option>
+    <option value="21">255.255.252.0</option>
+    <option value="22">255.255.254.0</option>
+    <option value="23">255.255.255.0</option>
+    <option value="24">255.255.255.128</option>
+    <option value="25">255.255.255.192</option>
+    <option value="26">255.255.255.224</option>
+    <option value="27">255.255.255.240</option>
+    <option value="28">255.255.255.248</option>
+    <option value="29">255.255.255.252</option>
+    <option value="30">255.255.255.254</option>
+    <option value="31">255.255.255.255</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Mask Bits<br>
+        <select id="cidr_mask_bits" name="cidr_mask_bits" onchange="cidrMaskBitsChange()">
+                <option value="0">1</option>
+    <option value="1">2</option>
+    <option value="2">3</option>
+    <option value="3">4</option>
+    <option value="4">5</option>
+    <option value="5">6</option>
+    <option value="6">7</option>
+    <option value="7">8</option>
+    <option value="8">9</option>
+    <option value="9">10</option>
+    <option value="10">11</option>
+    <option value="11">12</option>
+    <option value="12">13</option>
+    <option value="13">14</option>
+    <option value="14">15</option>
+    <option value="15">16</option>
+    <option value="16">17</option>
+    <option value="17">18</option>
+    <option value="18">19</option>
+    <option value="19">20</option>
+    <option value="20">21</option>
+    <option value="21">22</option>
+    <option value="22">23</option>
+    <option value="23">24</option>
+    <option value="24">25</option>
+    <option value="25">26</option>
+    <option value="26">27</option>
+    <option value="27">28</option>
+    <option value="28">29</option>
+    <option value="29">30</option>
+    <option value="30">31</option>
+    <option value="31">32</option>
+    
+        </select>
+        </td>
+        <td class="right">
+        Wildcard Mask<br>
+        <input type="text" name="inverted_mask" id="inverted_mask" value="" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Maximum Subnets<br>
+        <select id="cidr_max_subnets" name="cidr_max_subnets" size="1" onchange="cidrMaxSubnetsChange()">
+                <option value="0">2147483648</option>
+    <option value="1">1073741824</option>
+    <option value="2">536870912</option>
+    <option value="3">268435456</option>
+    <option value="4">134217728</option>
+    <option value="5">67108864</option>
+    <option value="6">33554432</option>
+    <option value="7">16777216</option>
+    <option value="8">8388608</option>
+    <option value="9">4194304</option>
+    <option value="10">2097152</option>
+    <option value="11">1048576</option>
+    <option value="12">524288</option>
+    <option value="13">262144</option>
+    <option value="14">131072</option>
+    <option value="15">65536</option>
+    <option value="16">32768</option>
+    <option value="17">16384</option>
+    <option value="18">8192</option>
+    <option value="19">4096</option>
+    <option value="20">2048</option>
+    <option value="21">1024</option>
+    <option value="22">512</option>
+    <option value="23">256</option>
+    <option value="24">128</option>
+    <option value="25">64</option>
+    <option value="26">32</option>
+    <option value="27">16</option>
+    <option value="28">8</option>
+    <option value="29">4</option>
+    <option value="30">2</option>
+    <option value="31">1</option>
+        </select>
+        </td>
+        <td class="right">
+        Maximum Addresses<br>
+        <select id="max_addresses" name="max_addresses" size="1" onchange="cidrMaxAddressesChange()">
+                <option value="0">2147483646</option>
+    <option value="1">1073741822</option>
+    <option value="2">536870910</option>
+    <option value="3">268435454</option>
+    <option value="4">134217726</option>
+    <option value="5">67108862</option>
+    <option value="6">33554430</option>
+    <option value="7">16777214</option>
+    <option value="8">8388606</option>
+    <option value="9">4194302</option>
+    <option value="10">2097150</option>
+    <option value="11">1048574</option>
+    <option value="12">524286</option>
+    <option value="13">262142</option>
+    <option value="14">131070</option>
+    <option value="15">65534</option>
+    <option value="16">32766</option>
+    <option value="17">16382</option>
+    <option value="18">8190</option>
+    <option value="19">4094</option>
+    <option value="20">2046</option>
+    <option value="21">1022</option>
+    <option value="22">510</option>
+    <option value="23">254</option>
+    <option value="24">126</option>
+    <option value="25">62</option>
+    <option value="26">30</option>
+    <option value="27">14</option>
+    <option value="28">6</option>
+    <option value="29">2</option>
+    <option value="30">2</option>
+    <option value="31">1</option>
+    
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        CIDR Network (Route)<br>
+        <input type="text" id="cidr_network" name="cidr_network" value="" size="20" readonly="" class="calc-output">
+        </td>
+        <td class="right">
+        Net: CIDR Notation<br>
+        <input type="text" id="net_cidr_notation" name="net_cidr_notation" value="" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        CIDR Address Range<br>
+        <input type="text" id="cidr_addr_range" name="cidr_addr_range" value="" size="30" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr><td colspan="2"><span class="base"></span></td></tr>
+        </tbody></table> <!-- calc -->
+    </form>
+    <div class="clear"></div>
+    <div class="clear"><br></div>
+
+    <div id="bottom">
+        <div class="clear"></div>
+        <div id="about">
+        <span class="info_h1"><h1>CIDR - Classless Inter Domain Routing</h1></span>
+<p class="first_paragraph">CIDR - Classless Inter Domain Routing - was adopted to help ease the load imposed on internet and large network backbone 
+routers by the increasing size of routing tables.</p> 
+<p>
+Large routing tables have several adverse effects:
+</p><ul>
+<li>
+Routers require more memory in order to store and manipulate their routing tables which increases operation 
+costs.
+</li>
+<li>
+Routing latency is increased due to the large amount of data contained in the routing tables.
+</li>
+<li>
+Network bandwidth usage is increased by routing updates when routers exchange their routing tables.
+</li>
+</ul>
+<p></p>
+<p>
+A solution to these problems was found in CIDR. CIDR permits IP Address aggregation which in turn reduces the size of 
+routing tables and so addresses the problems listed above.
+</p>
+<span class="info_h1"><h1>CIDR and IP Address Aggregation</h1></span>
+<p>
+So what is IP Address Aggregation? Quite simply, IP Address Aggregation means that several networks can be spanned by a single 
+routing entry. Consider the following case:
+</p>
+<p>
+Our router needs to route traffic for eight seperate networks through the same gateway (ip address 194.1.1.1):
+</p>
+<p>
+</p><pre>ip route 66.100.50.0 255.255.255.224 194.1.1.1
+ip route 66.100.50.32 255.255.255.224 194.1.1.1
+ip route 66.100.50.64 255.255.255.224 194.1.1.1
+ip route 66.100.50.96 255.255.255.224 194.1.1.1
+ip route 66.100.50.128 255.255.255.224 194.1.1.1
+ip route 66.100.50.160 255.255.255.224 194.1.1.1
+ip route 66.100.50.192 255.255.255.224 194.1.1.1
+ip route 66.100.50.224 255.255.255.224 194.1.1.1</pre>
+<p></p>	
+<p>
+Without CIDR, our routing table would need to maintain a seperate entry for each of the eight individual networks.
+</p>
+<p>
+As the eight example networks are contiguous, i.e. their address spaces follow numerically with no gaps, we can 
+encapsulate all eight with a single CIDR route by simply changing the subnet mask:
+</p>
+<p>
+</p><pre>ip route 66.100.50.0 255.255.255.0 194.1.1.1</pre>
+<p></p>
+<p>
+It's easy to see the benefit of IP Address Aggregation and CIDR when we see the difference in routing table entries between 
+the "before CIDR" and "after CIDR" cases above. This is a very simple example but it is easy to imagine how CIDR can help 
+in the real world with much larger aggregations. 
+</p>
+<p>
+CIDR brings with it its own simplified form of IP network address notation. Instead of using the network address and subnet mask, 
+CIDR notation uses the network address followed by a slash ("/") and the number of mask bits. For example, taking the CIDR network 
+from the above case:
+</p><pre>66.100.50.0 255.255.255.0</pre>
+would become 
+<pre>66.100.50.0/24</pre>
+<p></p>			</div> <!-- div about -->
+    </div> <!-- div bottom -->
+</div> <!-- div page -->
+<div class="clear"></div>
+</div>
+`
+</script>
+<script>
+const subnetHeader = `
+    <div class="subnet-main-container" align="center" id="body">
+    <div id="page">
+        <div id="header">
+        <p class="header-text">IP Subnet Calculator</p>
+        </div>
+        <div id="calc_text">
+            <p class="first_paragraph"><b>IP Subnet Calculator <i></i></b></p>
+            <p>The IP Subnet Mask Calculator enables subnet network calculations using network class, IP address, <i>subnet mask</i>, subnet bits, mask bits, 
+            maximum required IP subnets and maximum required hosts per subnet.</p>
+            <p>Results of the subnet calculation provide the hexadecimal IP address, the wildcard mask, for use with ACL (Access Control Lists), 
+            subnet ID, broadcast address, the subnet address range for the resulting subnet network and a subnet bitmap.</p>
+            <p>For classless supernetting, please use the <a onclick="showCidr()">CIDR Calculator</a>. For classful supernetting, please use the 
+            <a onclick="showSupernet()">IP Supernet Calculator</a>. For simple ACL (Access Control List) wildcard mask calculations, please use the 
+            <a onclick="showWildcard()">ACL Wildcard Mask Calculator</a>.</p>
+            <p>
+			Note:<br>These online network calculators  
+			may be used totally <i>free</i> of charge provided their use is from this url (www.subnet-calculator.com).
+			</p>
+			<p>
+        </div>
+    `
+
+const subnetA = `
+<form name="calculator" action="">
+    <table class="calc">
+    <tbody><tr>
+    <td colspan="2" class="title">
+    <b>Subnet Calculator</b>
+    </td>
+    </tr>
+    <tr>
+    <td class="left">
+        Network Class<br>
+        <label>
+        A <input type="radio" id="class_a" name="class_a" value="A" checked="" onclick="subnetClassAClick()">
+        </label>
+        <label>
+        B <input type="radio" id="class_b" name="class_b" value="B" onclick="subnetClassBClick()">
+        </label>
+        <label>
+        C <input type="radio" id="class_c" name="class_c" value="C" onclick="subnetClassCClick()">
+        </label>
+    </td>
+    <td class="right">
+        First Octet Range<br>
+        <input type="text" id="oct_range" name="oct_range" value="1 - 126" size="20" readonly="" class="calc-output">
+    </td>
+    </tr>
+    <tr>
+    <td class="left">
+        IP Address<br>
+        <input type="text" id="ip_oct_1" name="ip_oct_1" class="calc-input" value="10" maxlength="3" onchange="subnetIpOctChange(1);"> <strong>.</strong>
+        <input type="text" id="ip_oct_2" name="ip_oct_2" class="calc-input" value="0" maxlength="3" onchange="subnetIpOctChange(2);"> <strong>.</strong>
+        <input type="text" id="ip_oct_3" name="ip_oct_3" class="calc-input" value="0" maxlength="3" onchange="subnetIpOctChange(3);"> <strong>.</strong>
+        <input type="text" name="ip_oct_4" id="ip_oct_4" class="calc-input" value="1" maxlength="3" onchange="subnetIpOctChange(4);">
+    </td>
+    <td class="right">
+        Hex IP Address<br>
+        <input type="text" id="hex_addr" name="hex_addr" value="" size="20" readonly="" class="calc-output">
+    </td>
+    </tr>
+    <tr>
+    <td class="left">
+    Subnet Mask<br>
+    <select id="subnet_mask" name="subnet_mask" onchange="subnetMaskChange();">
+    <option value="0">255.0.0.0</option>
+    <option value="1">255.128.0.0</option>
+    <option value="2">255.192.0.0</option>
+    <option value="3">255.224.0.0</option>
+    <option value="4">255.240.0.0</option>
+    <option value="5">255.248.0.0</option>
+    <option value="6">255.252.0.0</option>
+    <option value="7">255.254.0.0</option>
+    <option value="8">255.255.0.0</option>
+    <option value="9">255.255.128.0</option>
+    <option value="10">255.255.192.0</option>
+    <option value="11">255.255.224.0</option>
+    <option value="12">255.255.240.0</option>
+    <option value="13">255.255.248.0</option>
+    <option value="14">255.255.252.0</option>
+    <option value="15">255.255.254.0</option>
+    <option value="16">255.255.255.0</option>
+    <option value="17">255.255.255.128</option>
+    <option value="18">255.255.255.192</option>
+    <option value="19">255.255.255.224</option>
+    <option value="20">255.255.255.240</option>
+    <option value="21">255.255.255.248</option>
+    <option value="22">255.255.255.252</option>
+    
+        </select>
+        </td>
+        <td class="right">
+        Wildcard Mask<br>
+        <input type="text" name="inverted_mask" id="inverted_mask" value="" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Subnet Bits<br>
+        <select name="subnet_bits" id="subnet_bits" onchange="subnetBitsChange();">
+                <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="19">19</option>
+    <option value="20">20</option>
+    <option value="21">21</option>
+    <option value="22">22</option>
+        </select>
+        </td>
+        <td class="right">
+        Mask Bits<br>
+        <select id="mask_bits" name="mask_bits" size="1" onchange="subnetMaskBitsChange();">
+                <option value="0">8</option>
+    <option value="1">9</option>
+    <option value="2">10</option>
+    <option value="3">11</option>
+    <option value="4">12</option>
+    <option value="5">13</option>
+    <option value="6">14</option>
+    <option value="7">15</option>
+    <option value="8">16</option>
+    <option value="9">17</option>
+    <option value="10">18</option>
+    <option value="11">19</option>
+    <option value="12">20</option>
+    <option value="13">21</option>
+    <option value="14">22</option>
+    <option value="15">23</option>
+    <option value="16">24</option>
+    <option value="17">25</option>
+    <option value="18">26</option>
+    <option value="19">27</option>
+    <option value="20">28</option>
+    <option value="21">29</option>
+    <option value="22">30</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Maximum Subnets<br>
+        <select id="max_subnets" name="max_subnets" size="1" onchange="subnetMaxSubnetsChange();">
+                <option value="0">1</option>
+    <option value="1">2</option>
+    <option value="2">4</option>
+    <option value="3">8</option>
+    <option value="4">16</option>
+    <option value="5">32</option>
+    <option value="6">64</option>
+    <option value="7">128</option>
+    <option value="8">256</option>
+    <option value="9">512</option>
+    <option value="10">1024</option>
+    <option value="11">2048</option>
+    <option value="12">4096</option>
+    <option value="13">8192</option>
+    <option value="14">16384</option>
+    <option value="15">32768</option>
+    <option value="16">65536</option>
+    <option value="17">131072</option>
+    <option value="18">262144</option>
+    <option value="19">524288</option>
+    <option value="20">1048576</option>
+    <option value="21">2097152</option>
+    <option value="22">4194304</option>
+    
+        </select>
+        </td>
+        <td class="right">
+        Hosts per Subnet<br>
+        <select id="max_hosts" name="max_hosts" size="1" onchange="subnetMaxHostsChange();">
+                <option value="0">16777214</option>
+    <option value="1">8388606</option>
+    <option value="2">4194302</option>
+    <option value="3">2097150</option>
+    <option value="4">1048574</option>
+    <option value="5">524286</option>
+    <option value="6">262142</option>
+    <option value="7">131070</option>
+    <option value="8">65534</option>
+    <option value="9">32766</option>
+    <option value="10">16382</option>
+    <option value="11">8190</option>
+    <option value="12">4094</option>
+    <option value="13">2046</option>
+    <option value="14">1022</option>
+    <option value="15">510</option>
+    <option value="16">254</option>
+    <option value="17">126</option>
+    <option value="18">62</option>
+    <option value="19">30</option>
+    <option value="20">14</option>
+    <option value="21">6</option>
+    <option value="22">2</option>
+    
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        Host Address Range<br>
+        <input type="text" id="host_range" name="host_range" value="" size="30" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Subnet ID<br>
+        <input type="text" id="subnet_id" name="subnet_id" value="" size="20" readonly="" class="calc-output">
+        </td>
+        <td class="right">
+        Broadcast Address<br>
+        <input type="text" id="broadcast_addr" name="broadcast_addr" value="" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        Subnet Bitmap<br>
+        <input type="text" id="subnet_bitmap" name="subnet_bitmap" value="" size="40" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr><td colspan="2"><span class="base"></span></td></tr>
+        </tbody></table> <!-- calc -->
+    </form>
+`
+const subnetB = `
+    <form name="calculator" action="">
+            <table class="calc">
+            <tbody><tr>
+            <td colspan="2" class="title">
+            <b>Subnet Calculator</b>
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+                Network Class<br>
+                <label>
+                A <input type="radio" id="class_a" name="class_a" value="A" onclick="subnetClassAClick()">
+                </label>
+                <label>
+                B <input type="radio" id="class_b" name="class_b" value="B" checked="" onclick="subnetClassBClick()">
+                </label>
+                <label>
+                C <input type="radio" id="class_c" name="class_c" value="C" onclick="subnetClassCClick()">
+                </label>
+            </td>
+            <td class="right">
+                First Octet Range<br>
+                <input type="text" id="oct_range" name="oct_range" value="128 - 191" size="20" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+                IP Address<br>
+                <input type="text" id="ip_oct_1" name="ip_oct_1" class="calc-input" value="172" maxlength="3" onchange="subnetIpOctChange(1);"> <strong>.</strong>
+                <input type="text" id="ip_oct_2" name="ip_oct_2" class="calc-input" value="16" maxlength="3" onchange="subnetIpOctChange(2);"> <strong>.</strong>
+                <input type="text" id="ip_oct_3" name="ip_oct_3" class="calc-input" value="0" maxlength="3" onchange="subnetIpOctChange(3);"> <strong>.</strong>
+                <input type="text" name="ip_oct_4" id="ip_oct_4" class="calc-input" value="1" maxlength="3" onchange="subnetIpOctChange(4);">
+            </td>
+            <td class="right">
+                Hex IP Address<br>
+                <input type="text" id="hex_addr" name="hex_addr" value="" size="20" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+            Subnet Mask<br>
+            <select id="subnet_mask" name="subnet_mask" onchange="subnetMaskChange();">
+                    <option value="0">255.255.0.0</option>
+        <option value="1">255.255.128.0</option>
+        <option value="2">255.255.192.0</option>
+        <option value="3">255.255.224.0</option>
+        <option value="4">255.255.240.0</option>
+        <option value="5">255.255.248.0</option>
+        <option value="6">255.255.252.0</option>
+        <option value="7">255.255.254.0</option>
+        <option value="8">255.255.255.0</option>
+        <option value="9">255.255.255.128</option>
+        <option value="10">255.255.255.192</option>
+        <option value="11">255.255.255.224</option>
+        <option value="12">255.255.255.240</option>
+        <option value="13">255.255.255.248</option>
+        <option value="14">255.255.255.252</option>
+        
+            </select>
+            </td>
+            <td class="right">
+            Wildcard Mask<br>
+            <input type="text" name="inverted_mask" id="inverted_mask" value="" size="20" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+            Subnet Bits<br>
+            <select name="subnet_bits" id="subnet_bits" onchange="subnetMaskChange();">
+                    <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+            </select>
+            </td>
+            <td class="right">
+            Mask Bits<br>
+            <select id="mask_bits" name="mask_bits" size="1" onchange="subnetMaskChange();">
+                    <option value="0">16</option>
+        <option value="1">17</option>
+        <option value="2">18</option>
+        <option value="3">19</option>
+        <option value="4">20</option>
+        <option value="5">21</option>
+        <option value="6">22</option>
+        <option value="7">23</option>
+        <option value="8">24</option>
+        <option value="9">25</option>
+        <option value="10">26</option>
+        <option value="11">27</option>
+        <option value="12">28</option>
+        <option value="13">29</option>
+        <option value="14">30</option>
+            </select>
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+            Maximum Subnets<br>
+            <select id="max_subnets" name="max_subnets" size="1" onchange="subnetMaskChange();">
+                    <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">4</option>
+        <option value="3">8</option>
+        <option value="4">16</option>
+        <option value="5">32</option>
+        <option value="6">64</option>
+        <option value="7">128</option>
+        <option value="8">256</option>
+        <option value="9">512</option>
+        <option value="10">1024</option>
+        <option value="11">2048</option>
+        <option value="12">4096</option>
+        <option value="13">8192</option>
+        <option value="14">16384</option>
+        
+            </select>
+            </td>
+            <td class="right">
+            Hosts per Subnet<br>
+            <select id="max_hosts" name="max_hosts" size="1" onchange="subnetMaskChange();">
+                    <option value="0">65534</option>
+        <option value="1">32766</option>
+        <option value="2">16382</option>
+        <option value="3">8190</option>
+        <option value="4">4094</option>
+        <option value="5">2046</option>
+        <option value="6">1022</option>
+        <option value="7">510</option>
+        <option value="8">254</option>
+        <option value="9">126</option>
+        <option value="10">62</option>
+        <option value="11">30</option>
+        <option value="12">14</option>
+        <option value="13">6</option>
+        <option value="14">2</option>
+        
+            </select>
+            </td>
+            </tr>
+            <tr>
+            <td colspan="2" class="left">
+            Host Address Range<br>
+            <input type="text" id="host_range" name="host_range" value="" size="30" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr>
+            <td class="left">
+            Subnet ID<br>
+            <input type="text" id="subnet_id" name="subnet_id" value="" size="20" readonly="" class="calc-output">
+            </td>
+            <td class="right">
+            Broadcast Address<br>
+            <input type="text" id="broadcast_addr" name="broadcast_addr" value="" size="20" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr>
+            <td colspan="2" class="left">
+            Subnet Bitmap<br>
+            <input type="text" id="subnet_bitmap" name="subnet_bitmap" value="" size="40" readonly="" class="calc-output">
+            </td>
+            </tr>
+            <tr><td colspan="2"><span class="base"></span></td></tr>
+            </tbody></table> <!-- calc -->
+    </form>
+`
+
+const subnetC = `
+    <form name="calculator" action="">
+        <table class="calc">
+        <tbody><tr>
+        <td colspan="2" class="title">
+        <b>Subnet Calculator</b>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+            Network Class<br>
+            <label>
+            A <input type="radio" id="class_a" name="class_a" value="A" onclick="subnetClassAClick()">
+            </label>
+            <label>
+            B <input type="radio" id="class_b" name="class_b" value="B" onclick="subnetClassBClick()">
+            </label>
+            <label>
+            C <input type="radio" id="class_c" name="class_c" value="C" checked="" onclick="subnetClassCClick()">
+            </label>
+        </td>
+        <td class="right">
+            First Octet Range<br>
+            <input type="text" id="oct_range" name="oct_range" value="192 - 223" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+            IP Address<br>
+            <input type="text" id="ip_oct_1" name="ip_oct_1" class="calc-input" value="192" maxlength="3" onchange="subnetIpOctChange(1)"> <strong>.</strong>
+            <input type="text" id="ip_oct_2" name="ip_oct_2" class="calc-input" value="168" maxlength="3" onchange="subnetIpOctChange(2)"> <strong>.</strong>
+            <input type="text" id="ip_oct_3" name="ip_oct_3" class="calc-input" value="0" maxlength="3" onchange="subnetIpOctChange(3)"> <strong>.</strong>
+            <input type="text" name="ip_oct_4" id="ip_oct_4" class="calc-input" value="1" maxlength="3" onchange="subnetIpOctChange(4)">
+        </td>
+        <td class="right">
+            Hex IP Address<br>
+            <input type="text" id="hex_addr" name="hex_addr" value="" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Subnet Mask<br>
+        <select id="subnet_mask" name="subnet_mask" onchange="subnetMaskChange()">
+                <option value="0">255.255.255.0</option>
+    <option value="1">255.255.255.128</option>
+    <option value="2">255.255.255.192</option>
+    <option value="3">255.255.255.224</option>
+    <option value="4">255.255.255.240</option>
+    <option value="5">255.255.255.248</option>
+    <option value="6">255.255.255.252</option>
+    
+        </select>
+        </td>
+        <td class="right">
+        Wildcard Mask<br>
+        <input type="text" name="inverted_mask" id="inverted_mask" value="" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Subnet Bits<br>
+        <select name="subnet_bits" id="subnet_bits" onchange="subnetBitsChange()">
+                <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+        </select>
+        </td>
+        <td class="right">
+        Mask Bits<br>
+        <select id="mask_bits" name="mask_bits" size="1" onchange="subnetMaskBitsChange()">
+                <option value="0">24</option>
+    <option value="1">25</option>
+    <option value="2">26</option>
+    <option value="3">27</option>
+    <option value="4">28</option>
+    <option value="5">29</option>
+    <option value="6">30</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Maximum Subnets<br>
+        <select id="max_subnets" name="max_subnets" size="1" onchange="subnetMaxSubnetsChange()">
+                <option value="0">1</option>
+    <option value="1">2</option>
+    <option value="2">4</option>
+    <option value="3">8</option>
+    <option value="4">16</option>
+    <option value="5">32</option>
+    <option value="6">64</option>
+    
+        </select>
+        </td>
+        <td class="right">
+        Hosts per Subnet<br>
+        <select id="max_hosts" name="max_hosts" size="1" onchange="subnetMaxHostsChange()">
+                <option value="0">254</option>
+    <option value="1">126</option>
+    <option value="2">62</option>
+    <option value="3">30</option>
+    <option value="4">14</option>
+    <option value="5">6</option>
+    <option value="6">2</option>
+    
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        Host Address Range<br>
+        <input type="text" id="host_range" name="host_range" value="" size="30" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td class="left">
+        Subnet ID<br>
+        <input type="text" id="subnet_id" name="subnet_id" value="" size="20" readonly="" class="calc-output">
+        </td>
+        <td class="right">
+        Broadcast Address<br>
+        <input type="text" id="broadcast_addr" name="broadcast_addr" value="" size="20" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" class="left">
+        Subnet Bitmap<br>
+        <input type="text" id="subnet_bitmap" name="subnet_bitmap" value="" size="40" readonly="" class="calc-output">
+        </td>
+        </tr>
+        <tr><td colspan="2"><span class="base"></span></td></tr>
+        </tbody></table> <!-- calc -->
+    </form>
+
+`
+
+const subnetDescription = `
+    <div class="clear"></div>
+        <div class="clear"><br></div>
+        <div id="bottom">
+            <div class="clear"></div>
+            <div id="about">
+            <b>Notes about the Subnet Calculator</b>
+            <ol>
+                <li>The IP subnet calculator implements a classful / classed IP addressing scheme where the following rules are adhered to:<br><br>
+                    <ul>
+                    <li>Class A addresses have their first octet in the range 1 to 126 (binary address begins with 0).<br><br></li>
+                    <li>Class B addresses have their first octet in the range 128 to 191 (binary address begins with 10).<br><br></li>
+                    <li>Class C addresses have their first octet in the range 192 to 223 (binary address begins with 110).<br><br></li>
+                    </ul>
+                </li>
+                <li>The IP subnet calculator allows the use of a single subnet bit - for example, a class C address with a subnet 
+                mask of 255.255.255.128 is permitted.<br><br> 
+                </li>
+                <li>
+                The IP subnet calculator allows a subnet ID to have its final octet equal to the final octet of its subnet mask - 
+                for example, a class C network address of 192.168.0.192 with a subnet mask of 255.255.255.192 is permitted.<br><br>
+                </li>
+            </ol>
+            <p>
+            The above is generally accepted as being 'normal', however, certification students should keep in mind that, in some 
+            certification programs, the final two points are regarded as unacceptable.
+            </p>
+            <p>
+            For classless subnetting, you can use the <a onclick="showCidr()">CIDR calculator</a>.
+            </p>
+            </div> <!-- div about -->
+            <div class="clear"></div>
+        </div> <!-- div bottom -->
+    </div> <!-- div page -->
+    <div class="clear"></div>
+    </div>
+    `
+</script>
+
+
+
+<script>
+    function subnetid(oct1, oct2, oct3, oct4, netmask) {
+        var netaddress = ""; netmaskArr ="";
+        netmaskArr = netmask.split(".");
+        netaddress = (oct1 & netmaskArr[0])+"."+(oct2 & netmaskArr[1])+"."+(oct3 & netmaskArr[2])+"."+(oct4 & netmaskArr[3]);
+        return netaddress;
+    }
+    function netmask(wildcardmask) {
+        var wildcard = ""; wildcardmaskArr = "";
+        wildcardmaskArr = wildcardmask.split(".");
+        wildcard =  (~wildcardmaskArr[0] & 255)+"."+(~wildcardmaskArr[1] & 255)+"."+(~wildcardmaskArr[2] & 255)+"."+(~wildcardmaskArr[3] & 255);
+        return wildcard;
+    }
+    function broadcastaddr(subnetid, invertmask) {
+        var broadcast = ""; subnetidArr = ""; invertmaskArr = "";
+        subnetidArr = subnetid.split(".");
+        invertmaskArr = invertmask.split(".");
+        broadcast = (subnetidArr[0] | invertmaskArr[0])+"."+(subnetidArr[1] | invertmaskArr[1])+"."+(subnetidArr[2] | invertmaskArr[2])+"."+(subnetidArr[3] | invertmaskArr[3]);
+        return broadcast;
+    }
+        function invertmask(netmask) {
+        var inverted = ""; netmaskArr = "";
+        netmaskArr = netmask.split(".");
+        inverted =  (~netmaskArr[0] & 255)+"."+(~netmaskArr[1] & 255)+"."+(~netmaskArr[2] & 255)+"."+(~netmaskArr[3] & 255);
+        return inverted;
+    }
+
+    function hostrange (subnetid, broadcastaddr) {
+        var hrange = ""; subnetidArr = ""; broadcastaddrArr = "";
+        subnetidArr = subnetid.split(".");
+        broadcastaddrArr = broadcastaddr.split(".");
+        hrange = subnetidArr.join(".")+" - "+broadcastaddrArr.join(".");
+        return hrange;
+    }
+
+    function decToHex(octet) {
+        var ouroctet=octet; hexoctet = ""; hexdigits =  "0123456789ABCDEF";
+        for (i=0; i<2; i++) {
+            ascii = ouroctet & 15;
+            hexoctet = hexdigits.charAt(ascii) + hexoctet;
+            ouroctet = ouroctet >> 4;
+        }
+        return hexoctet;
+    }
+
+    function ipAddrToHex(oct1, oct2, oct3, oct4) {
+        var hexaddr = "";
+        hexaddr = decToHex(oct1)+"."+decToHex(oct2)+"."+decToHex(oct3)+"."+decToHex(oct4);
+        return hexaddr;
+    }
+</script>
+
+<script>
+    function subnetShowBitmap() {
+        var addr_bits="32"; net_bits=""; host_bits=""; bitmap="";
+        subnet_bits_obj = document.getElementById('subnet_bits');
+        mask_bits_obj = document.getElementById('mask_bits');
+        sb_index = subnet_bits_obj.selectedIndex;
+        mb_index = mask_bits_obj.selectedIndex;
+        if (document.calculator.class_c.checked) {
+            net_bits = 24; addr_bits="35"; bitmap="110nnnnn.nnnnnnnn.nnnnnnnn."
+        } else if (document.calculator.class_b.checked) {
+            net_bits = 16; addr_bits="35"; bitmap="10nnnnnn.nnnnnnnn.";
+        } else if (document.calculator.class_a.checked) {
+            net_bits = 8; addr_bits="35"; bitmap="0nnnnnnn.";
+        }
+        for (i = 1; i <= subnet_bits_obj.options[sb_index].text; i++) {
+            if (bitmap.length == 17 || bitmap.length == 26) {
+                bitmap = bitmap+".";
+            }
+            bitmap = bitmap+"s"; 
+        }
+        do {
+            if (bitmap.length == 17 || bitmap.length== 26) {
+                bitmap = bitmap+".";
+            }
+            bitmap = bitmap+"h";
+        }
+        while (bitmap.length < 35) {
+            document.calculator.subnet_bitmap.value = bitmap+" ";
+        }
+    }
+    
+    function subnetUpdateNetInfo() {
+        ip_oct_1_obj = document.getElementById('ip_oct_1');
+        ip_oct_2_obj = document.getElementById('ip_oct_2');
+        ip_oct_3_obj = document.getElementById('ip_oct_3');
+        ip_oct_4_obj = document.getElementById('ip_oct_4');
+        subnet_mask_obj = document.getElementById('subnet_mask');
+        host_range_obj = document.getElementById('host_range');
+        subnet_id_obj = document.getElementById('subnet_id');
+        broadcast_addr_obj = document.getElementById('broadcast_addr');
+        sm_index = subnet_mask_obj.selectedIndex;
+        subnet_id_obj.value = subnetid(ip_oct_1_obj.value, ip_oct_2_obj.value, ip_oct_3_obj.value, ip_oct_4_obj.value, subnet_mask_obj.options[sm_index].text);
+        broadcast_addr_obj.value = broadcastaddr(subnet_id_obj.value, invertmask(subnet_mask_obj.options[sm_index].text));
+        host_range_obj.value = hostrange(subnet_id_obj.value, broadcast_addr_obj.value);
+        document.calculator.inverted_mask.value = invertmask(subnet_mask_obj.options[sm_index].text);
+        document.calculator.hex_addr.value = ipAddrToHex(ip_oct_1_obj.value, ip_oct_2_obj.value, ip_oct_3_obj.value, ip_oct_4_obj.value);
+        subnetShowBitmap();
+    }
+    function subnetClassAClick() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = subnetHeader + subnetA + subnetDescription;
+    }
+    function subnetClassBClick() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = subnetHeader + subnetB + subnetDescription;
+    }
+    function subnetClassCClick() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = subnetHeader + subnetC + subnetDescription;
+    }
+    function subnetIpOctChange(ip_oct_value) {
+        var cform = document.calculator; oct=""; our_oct=""; min=""; max=""; def="";
+        if (ip_oct_value == 1) {
+            oct = cform.ip_oct_1; our_oct = 1;
+        } else if (ip_oct_value == 2) {
+            oct = cform.ip_oct_2;
+        } else if (ip_oct_value == 3) {
+            oct = cform.ip_oct_3;
+        } else if (ip_oct_value == 4) {
+            oct = cform.ip_oct_4;
+        }
+        if (oct.value == "" || oct.value == null) {
+            oct.value = 0;
+        }
+        if (cform.class_a.checked) {
+            min = 1; 
+            max = 126;	
+            def = 10;
+        } else if (cform.class_b.checked) {
+            min = 128;	
+            max = 191; 
+            def = 172;
+        }
+        else if (cform.class_c.checked) {
+            min = 192;	
+            max = 223; 
+            def = 192;
+        }
+        for (i = 0; i < oct.value.length; i++) {
+            c = oct.value.substring(i, i + 1)
+            if (c < "0" || c > "9") oct.value=255;
+            }
+        if (our_oct == 1) {
+            if (oct.value > max || oct.value < min) oct.value=def;	
+        }
+        else {
+            if (oct.value > 255) oct.value=255;	
+            if (oct.value < 0) oct.value=0;
+        }
+        subnetUpdateNetInfo();
+    }
+    function subnetBitsChange() {
+        var cform = document.calculator;
+        i = cform.subnet_bits.value;
+        cform.mask_bits.value = i;
+        cform.subnet_mask.value = i;
+        cform.max_subnets.value = i;
+        cform.max_hosts.value = i;
+        subnetUpdateNetInfo();
+    }
+    function subnetMaskBitsChange() {
+        var cform = document.calculator;
+        i = cform.mask_bits.value;
+        cform.subnet_bits.value = i;
+        cform.subnet_mask.value = i;
+        cform.max_subnets.value = i;
+        cform.max_hosts.value = i;
+        subnetUpdateNetInfo();
+    }
+    function subnetMaskChange() {
+        var cform = document.calculator;
+        i = cform.subnet_mask.value;
+        cform.subnet_bits.value = i;
+        cform.mask_bits.value = i;
+        cform.max_subnets.value = i;
+        cform.max_hosts.value = i;
+        subnetUpdateNetInfo();
+    }
+    function subnetMaxSubnetsChange() {
+        var cform = document.calculator;
+        i = cform.max_subnets.value;
+        cform.subnet_bits.value = i;
+        cform.mask_bits.value = i;
+        cform.subnet_mask.value = i;
+        cform.max_hosts.value = i;
+        subnetUpdateNetInfo()
+    }
+    function subnetMaxHostsChange() {
+        var cform = document.calculator;
+        i = cform.max_hosts.value;
+        cform.subnet_bits.value = i;
+        cform.mask_bits.value = i;
+        cform.subnet_mask.value = i;
+        cform.max_subnets.value = i;
+        subnetUpdateNetInfo()
+    }
+    function cidr_class_a_click() {
+        document.calculator.class_a.checked=true;
+        document.calculator.class_b.checked=false;
+        document.calculator.class_c.checked=false;
+        window.location = "cidr.php?net_class=A";
+    }
+    function cidr_class_b_click() {
+        document.calculator.class_a.checked=false;
+        document.calculator.class_b.checked=true;
+        document.calculator.class_c.checked=false;
+        window.location = "cidr.php?net_class=B";
+    }
+    function cidr_class_c_click() {
+        document.calculator.class_a.checked=false;
+        document.calculator.class_b.checked=false;
+        document.calculator.class_c.checked=true;
+        window.location = "cidr.php?net_class=C";
+    }
+    function cidr_mask_bits_change() {
+        var cform = document.calculator;
+        i = cform.mask_bits.value;
+        cform.supernet_mask.value = i;
+        cform.max_supernets.value = i;
+        cform.max_addresses.value = i;
+    }
+</script>
+
+<script>
+    
+    function updateWildcardInfo() {
+        ip_oct_1_obj = document.getElementById('ip_oct_1');
+        ip_oct_2_obj = document.getElementById('ip_oct_2');
+        ip_oct_3_obj = document.getElementById('ip_oct_3');
+        ip_oct_4_obj = document.getElementById('ip_oct_4');
+        wildcardmask_obj = document.getElementById('wildcard_mask');
+        first_address_obj = document.getElementById('first_address');
+        last_address_obj = document.getElementById('last_address');
+        sm_index = wildcardmask_obj.selectedIndex;
+        first_address_obj.value = subnetid(ip_oct_1_obj.value, ip_oct_2_obj.value, ip_oct_3_obj.value, ip_oct_4_obj.value, netmask(wildcardmask_obj.options[sm_index].text));
+        last_address_obj.value = broadcastaddr(first_address_obj.value, wildcardmask_obj.options[sm_index].text)
+    }
+    function wildcardIpOctChange(ip_oct_value) {
+        var cform = document.calculator; oct=""; our_oct="";
+        if (ip_oct_value == 1) {
+            oct = cform.ip_oct_1; our_oct = 1;
+        } else if (ip_oct_value == 2) {
+            oct = cform.ip_oct_2;
+        } else if (ip_oct_value == 3) { 
+            oct = cform.ip_oct_3;
+        } else if (ip_oct_value == 4) {
+            oct = cform.ip_oct_4;
+        }
+        if (oct.value == "" || oct.value == null) {
+            oct.value = 0;
+        }
+        for (i = 0; i < oct.value.length; i++) {
+            c = oct.value.substring(i, i + 1)
+            if (c < "0" || c > "9") {
+                oct.value=255;
+            }
+        }
+        if (oct.value > 255) {
+            oct.value=255;
+        }	
+        if (oct.value < 0) {
+            oct.value=0;
+        }
+        updateWildcardInfo();
+    }
+
+    function wildcardMaskChange() {
+        var cform = document.calculator;
+        i = cform.wildcard_mask.value;
+        updateWildcardInfo();
+    }
+</script>
+
+<script>
+
+    function updateSupernetInfo() {
+        ip_oct_1_obj = document.getElementById('ip_oct_1');
+        ip_oct_2_obj = document.getElementById('ip_oct_2');
+        ip_oct_3_obj = document.getElementById('ip_oct_3');
+        ip_oct_4_obj = document.getElementById('ip_oct_4');
+        supernet_mask_obj = document.getElementById('supernet_mask');
+        supernet_range_obj = document.getElementById('supernet_range');
+        supernet_route_obj = document.getElementById('supernet_route');
+        broadcast_addr_obj = document.getElementById('broadcast_addr');
+        sm_index = supernet_mask_obj.selectedIndex;
+        supernet_route_obj.value = subnetid(ip_oct_1_obj.value, ip_oct_2_obj.value, ip_oct_3_obj.value, ip_oct_4_obj.value, supernet_mask_obj.options[sm_index].text);
+        supernet_range_obj.value = hostrange(supernet_route_obj.value, broadcastaddr(supernet_route_obj.value, invertmask(supernet_mask_obj.options[sm_index].text)));
+        document.calculator.inverted_mask.value = invertmask(supernet_mask_obj.options[sm_index].text);
+    }
+    function supernetIpOctChange(ip_oct_value) {
+        var cform = document.calculator; oct=""; our_oct=""; min=""; max=""; def="";
+        if (ip_oct_value == 1) {
+            oct = cform.ip_oct_1; our_oct = 1;
+        } else if (ip_oct_value == 2) {
+            oct = cform.ip_oct_2;
+        } else if (ip_oct_value == 3) {
+            oct = cform.ip_oct_3;
+        } else if (ip_oct_value == 4) {
+            oct = cform.ip_oct_4;
+        }
+        if (oct.value == "" || oct.value == null) {
+            oct.value = 0;
+        }
+        if (cform.class_a.checked) {
+            min = 1;
+             max = 126;	
+             def = 10;
+            } else if (cform.class_b.checked) {
+                min = 128;	
+                max = 191; 
+                def = 172;
+            } else if (cform.class_c.checked) {
+                min = 192;	
+                max = 223; 
+                def = 192;
+            }
+        for (i = 0; i < oct.value.length; i++) {
+            c = oct.value.substring(i, i + 1)
+            if (c < "0" || c > "9") {
+                oct.value=255;
+            }
+        }
+        if (our_oct == 1) {
+            if (oct.value > max || oct.value < min) {
+                oct.value=def;
+            }	
+        }
+        else {
+            if (oct.value > 255) {
+                oct.value=255;
+            }	
+            if (oct.value < 0) {
+                oct.value=0;
+            }
+        }
+        updateSupernetInfo();
+    }
+
+    function supernetCidrClassAClick() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = supernetHeader + supernetA + supernetDescription;
+    }
+    function supernetCidrClassBClick() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = supernetHeader + supernetB + supernetDescription;
+    }
+    function supernetCidrClassCClick() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = supernetHeader + supernetC + supernetDescription;
+    }
+    function supernetCidrMaskBitsChange() {
+        var cform = document.calculator;
+        i = cform.cidr_mask_bits.value;
+        cform.supernet_mask.value = i;
+        cform.max_supernets.value = i;
+        cform.max_addresses.value = i;
+        updateSupernetInfo();
+    }
+    function supernetCidrMaskChange() {
+        var cform = document.calculator;
+        i = cform.supernet_mask.value;
+        cform.cidr_mask_bits.value = i;
+        cform.max_supernets.value = i;
+        cform.max_addresses.value = i;
+        updateSupernetInfo();
+    }
+    function supernetCidrMaxSupernetsChange() {
+        var cform = document.calculator;
+        i = cform.max_supernets.value;
+        cform.cidr_mask_bits.value = i;
+        cform.supernet_mask.value = i;
+        cform.max_addresses.value = i;
+        updateSupernetInfo();
+    }
+    function supernetsCidrMaxAddressesChange() {
+        var cform = document.calculator;
+        i = cform.max_addresses.value;
+        cform.cidr_mask_bits.value = i;
+        cform.supernet_mask.value = i;
+        cform.max_supernets.value = i;
+        updateSupernetInfo();
+    }
+</script>
+
+<script>
+    function cidrUpdatenetInfo() {
+        ip_oct_1_obj = document.getElementById('ip_oct_1');
+        ip_oct_2_obj = document.getElementById('ip_oct_2');
+        ip_oct_3_obj = document.getElementById('ip_oct_3');
+        ip_oct_4_obj = document.getElementById('ip_oct_4');
+        cidr_netmask_obj = document.getElementById('cidr_netmask');
+        cidr_addr_range_obj = document.getElementById('cidr_addr_range');
+        cidr_network_obj = document.getElementById('cidr_network');
+        broadcast_addr_obj = document.getElementById('broadcast_addr');
+        net_cidr_notation_obj = document.getElementById('net_cidr_notation');
+        cidr_mask_bits_obj = document.getElementById('cidr_mask_bits');
+        sm_index = cidr_netmask_obj.selectedIndex;
+        cidr_network_obj.value = subnetid(ip_oct_1_obj.value, ip_oct_2_obj.value, ip_oct_3_obj.value, ip_oct_4_obj.value, cidr_netmask_obj.options[sm_index].text);
+        cidr_addr_range_obj.value = hostrange(cidr_network_obj.value, broadcastaddr(cidr_network_obj.value, invertmask(cidr_netmask_obj.options[sm_index].text)));
+        document.calculator.inverted_mask.value = invertmask(cidr_netmask_obj.options[sm_index].text);
+        net_cidr_notation_obj.value = cidr_network_obj.value+'/'+cidr_mask_bits_obj.options[sm_index].text;
+    }
+    function cidrIpOctChange(ip_oct_value) {
+        var cform = document.calculator; oct=""; our_oct="";
+        if (ip_oct_value == 1) {
+            oct = cform.ip_oct_1; our_oct = 1;
+        } else if (ip_oct_value == 2) {
+            oct = cform.ip_oct_2;
+        } else if (ip_oct_value == 3) {
+            oct = cform.ip_oct_3;
+        } else if (ip_oct_value == 4) {
+            oct = cform.ip_oct_4;
+        }
+        if (oct.value == "" || oct.value == null) {
+            oct.value = 0;
+        }
+        for (i = 0; i < oct.value.length; i++) {
+            c = oct.value.substring(i, i + 1)
+            if (c < "0" || c > "9") {
+                oct.value=255;
+            }
+        }
+        if (oct.value > 255) {
+            oct.value=255;
+        }	
+        if (oct.value < 0) {
+            oct.value=0;
+        }
+        cidrUpdatenetInfo();
+    }
+
+    function cidrMaskBitsChange() {
+        var cform = document.calculator;
+        i = cform.cidr_mask_bits.value;
+        cform.cidr_netmask.value = i;
+        cform.cidr_max_subnets.value = i;
+        cform.max_addresses.value = i;
+        cidrUpdatenetInfo();
+
+    }
+    function cidrNetmaskChange() {
+        var cform = document.calculator;
+        i = cform.cidr_netmask.value;
+        cform.cidr_mask_bits.value = i;
+        cform.cidr_max_subnets.value = i;
+        cform.max_addresses.value = i;
+        cidrUpdatenetInfo();
+    }
+    function cidrMaxSubnetsChange() {
+        var cform = document.calculator;
+        i = cform.cidr_max_subnets.value;
+        cform.cidr_mask_bits.value = i;
+        cform.cidr_netmask.value = i;
+        cform.max_addresses.value = i;
+        cidrUpdatenetInfo();
+    }
+    function cidrMaxAddressesChange() {
+        var cform = document.calculator;
+        i = cform.max_addresses.value;
+        cform.cidr_mask_bits.value = i;
+        cform.cidr_netmask.value = i;
+        cform.cidr_max_subnets.value = i;
+        cidrUpdatenetInfo();
+    }
+</script>
+
+<script>
+    function showSubnet() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = subnetHeader + subnetC + subnetDescription;
+    };
+
+    function showSupernet() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = supernetHeader + supernetC + supernetDescription;
+    };
+
+    function showCidr() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = cidr;
+    };
+
+    function showWildcard() {
+        const mainContainer = document.getElementById('main-container');
+        mainContainer.innerHTML = wildcard;
+    };
+</script>
+
+<body>
+    <!-- <div class="navbar">
+        <div>
+            <div class="dropdown">
+                <button class="dropbtn">Calculator Fields</button>
+                <div class="dropdown-content">
+                    <div class="hex-calc-fields">
+                        <div class="hex-p-field">
+                            <a class="hex-p-top"><strong>P</strong>- Parity Bits:</a>
+                            <a class="hex--p">Even parity is generated/checked over the leftmost 13 bits.</a>
+                            <a>Odd parity is generated/checked over the rightmost 13 bits.</a>
+                            <a>These fields will turn RED if raw data is entered with incorrect parity.</a>
+                        </div>
+                        <div class="hex-f-field">
+                            <a><strong>F</strong>- Facility Code:</a>
+                            <a>These 8 bits represent the card's facility code.</a>
+                        </div>
+                        <div class="hex-c-field">
+                            <a><strong>C</strong>- Card Code:</a>
+                            <a>These 16 bits represent the card code.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Instructions</button>
+                <div class="dropdown-content">
+                    <div class="hex-instructions">
+                        <a>This calculator allows you to manipulate and decode the fields of a standard 26-bit
+                            wiegand access card number.</a>
+                        <a>You can enter data into any of the fields and the calculator will translate into all
+                            other fields.</a>
+                        <a>In addition this calculator will generate parity bits (or check the parity if you entered
+                            raw card data).</a>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button type="button" class="dropbtn" id="multiple-card-codes" onclick="showRange()">Multiple Card
+                    Codes</button>
+                <div class="dropdown-content">
+                    <div class="hex-instructions">
+                        <a>Click to enter a range (start to end) of card codes to output a .rfid file for each card
+                            code in said range.</a>
+                        <a>Uses Facility Code decimal entered below. If a value is in the Card Code decimal, it will
+                            be ignored when the</a>
+                        <a>.rfid files are downloaded.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-center-container">
+            <a class="navbar-center">Wiegand Calculator - 26-bit format</a>
+        </div>
+    </div> -->
+    <div class="body-container">
+        <div class="top-menu-container" align="center">
+            <div id="top_menu" class="menus">
+                <ul>
+                    <li><a onclick="showSubnet()" title="Subnet Calculator (Classful)">Subnets</a></li>
+                    <li><a onclick="showSupernet()" title="Supernet Calculator (Classful)">Supernets</a></li>
+                    <li><a onclick="showCidr()" title="CIDR Calculator (Classless)">CIDR</a></li>
+                    <li><a onclick="showWildcard()" title="ACL (Access Control List) Wildcard Mask Calculator">Wildcard</a></li>
+                </ul>		
+            </div> 
+        </div>
+        <div class="main-container" id="main-container"></div>
+    </div>
+</body>
+<script>
+    subnetClassCClick();
+</script>
+</html>
